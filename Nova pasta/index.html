@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Blackwood Manor</title>
+    <script src="https:cdn.tailwindcss.com"></script>
+    <link href="https:fonts.googleapis.com/css2?family=Creepster&family=Eater&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <style>
+        :root {
+        blood-red: #6b0504;
+        dark-gray: #12130f;
+        old-paper: #e8e1db;
+        }
+        
+        body {
+            font-family: 'IM Fell English SC', serif;
+            background-color: var(--dark-gray);
+            color: var(--old-paper);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .creepster-font {
+            font-family: 'Creepster', cursive;
+        }
+        
+        .eater-font {
+            font-family: 'Eater', cursive;
+        }
+        
+        .flicker {
+            animation: flicker 8s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                    0 0 4px #fff,
+                    0 0 11px #fff,
+                    0 0 19px #fff,
+                    0 0 40px var(--blood-red),
+                    0 0 80px var(--blood-red),
+                    0 0 90px var(--blood-red),
+                    0 0 100px var(--blood-red),
+                    0 0 150px var(--blood-red);
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+        
+        .glow {
+            text-shadow: 0 0 5px rgba(107, 5, 4, 0.7);
+        }
+        
+        .page-turn {
+            transition: transform 0.6s;
+        }
+        
+        .page-turn:hover {
+            transform: rotateY(180deg);
+        }
+        
+        .haunted-mirror {
+            position: relative;
+        }
+        
+        .haunted-mirror:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.7) 100%);
+            z-index: 1;
+        }
+        
+        .scratches {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="https:www.bing.com/images/search?view=detailV2&ccid=3V20IPjR&id=67EA90026CFD162A23926A26D3BF95F745073187&thid=OIP.3V20IPjRtD6ajXCwUIS6zAHaEK&mediaurl=https%3a%2f%2fimg.uhdpaper.com%2fwallpaper%2fgta-6-game-art-280%401%40n-pc-hd.jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.dd5db420f8d1b43e9a8d70b05084bacc%3frik%3dhzEHRfeVv9Mmag%26pid%3dImgRaw%26r%3d0&exph=1080&expw=1920&q=gta+6&simid=608013962592416536&FORM=IRPRST&ck=AC97BDD5DF0A935E25794DBE701D562B&selectedIndex=4&itb=0" width="100" height="100" viewBox="0 0 100 100"><path d="M10,10 L90,90 M30,10 L70,90 M50,10 L50,90 M10,50 L90,50" stroke="white" stroke-width="1" opacity="0.1" /></svg>');
+        }
+        
+        #secret-passage {
+            transition: all 1s;
+            cursor: pointer;
+        }
+        
+        #secret-passage:hover {
+            transform: scale(1.05);
+        }
+        
+        #book {
+            perspective: 1000px;
+        }
+        
+        #exploration-container {
+            height: 400px;
+            position: relative;
+        }
+        
+        #exploration-view {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 1s;
+        }
+        
+        #mail-content {
+            position: relative;
+            min-height: 300px;
+        }
+        
+        #mail-content:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.2),
+                rgba(0,0,0,0.2) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 relative">
+ Blood dripping effect
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-50">
+        <div class="blood-drop absolute w-1 h-20 bg-red-800 opacity-70" style="left: 15%; top: -20px;"></div>
+        <div class="blood-drop absolute w-1 h-16 bg-red-800 opacity-70" style="left: 35%; top: -16px;"></div>
+        <div class="blood-drop absolute w-1 h-24 bg-red-800 opacity-70" style="left: 75%; top: -24px;"></div>
+    </div>
+    
+ Main layout
+    <div class="container mx-auto px-4 py-8 max-w-6xl relative">
+     Header with animated title
+        <header class="mb-12 text-center">
+            <h1 class="text-6xl md:text-8xl creepster-font flicker text-red-800 mb-4">O PESADELO DE TODO MUNDO</h1>
+            <p class="text-xl glow italic">"Where the walls whisper and..."</p>
+        </header>
+        
+     Introduction section with typewriter effect
+        <section id="intro" class="mb-16">
+            <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-red-900 shadow-lg scratches">
+                <h2 class="text-3xl creepster-font text-red-600 mb-4">esse site deixa qualquer um cagado de medo</h2>
+                <p id="typewriter" class="text-lg leading-relaxed"></p>
+                <button id="begin-btn" class="mt-6 bg-red-900 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 creepster-font text-xl">
+                    CLIQUE NO BOTAO VÁ
+                </button>
+            </div>
+        </section>
+        
+     Hidden exploration section that appears after clicking begin
+        <section id="exploration" class="hidden mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+             Left column - haunted items
+                <div class="space-y-6">
+                    <div class="bg-black bg-opacity-70 p-4 rounded-lg border border-red-900 shadow-lg">
+                        <h3 class="text-2xl creepster-font text-red-600 mb-3">CURSED ARTIFACTS realmente bem cursed</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="haunted-item p-3 border border-gray-700 rounded cursor-pointer hover:bg-red-900 hover:bg-opacity-30 transition-all" data-item="doll">
+                                <img src="peixecombolsonaro.png" alt="Porcelain doll with cracked face and missing eye, wearing a tattered Victorian dress" class="w-full rounded haunted-mirror">
+                                <p class="mt-2 text-center">The Doll</p>
+                            </div>
+                            <div class="haunted-item p-3 border border-gray-700 rounded cursor-pointer hover:bg-red-900 hover:bg-opacity-30 transition-all" data-item="mirror">
+                                <img src="bolsonarocompeixe.png" alt="Ornate antique mirror with tarnished silver frame, reflecting a shadowy figure" class="w-full rounded haunted-mirror">
+                                <p class="mt-2 text-center">Haunted Mirror</p>
+                            </div>
+                            <div class="haunted-item p-3 border border-gray-700 rounded cursor-pointer hover:bg-red-900 hover:bg-opacity-30 transition-all" data-item="book">
+                                <img src="lulamandrake.jpg" alt="Leather-bound book with faded gold lettering and blood stains on the cover" class="w-full rounded">
+                                <p class="mt-2 text-center">Ancient Tome</p>
+                            </div>
+                            <div class="haunted-item p-3 border border-gray-700 rounded cursor-pointer hover:bg-red-900 hover:bg-opacity-30 transition-all" data-item="key">
+                                <img src="lula2.jpg " alt="Rusty iron key with intricate patterns, glowing faintly in the dark" class="w-full rounded">
+                                <p class="mt-2 text-center">Mysterious Key</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mail-container" class="bg-black bg-opacity-70 p-4 rounded-lg border border-red-900 shadow-lg hidden">
+                        <h3 class="text-2xl creepster-font text-red-600 mb-3">OLD LETTER</h3>
+                        <div id="mail-content" class="bg-amber-50 text-gray-900 p-4 font-serif">
+                            <p class="mb-4">sla uma data aleatoria 1/01/2000</p>
+                            <p class="mb-4">qq aconteceu esse ano? ,</p>
+                            <p class="mb-4">nao esse 2025, os anos 2000 eu num era nascido kkkkkkk</p>
+                            <p class="mb-4">sera que ja existia hamburguer?</p>
+                            <p class="mb-4" id="hidden-text" class="invisible">.hamburguer é bao demais</p>
+                            <p class="mb-4">ja nao aguento mais escrever</p>
+                            <p>parede </p>
+                            <p>left 4 dead 2 </p>
+                        </div>
+                        <button id="fold-letter" class="mt-4 bg-gray-800 text-white py-2 px-4 rounded creepster-font">
+                            PASTA DE LETRAS 
+                        </button>
+                    </div>
+                </div>
+                
+             Center column - main exploration view
+                <div class="space-y-6">
+                    <div id="exploration-container" class="bg-black bg-opacity-70 rounded-lg border border-red-900 shadow-lg overflow-hidden">
+                        <div id="exploration-view" class="flex items-center justify-center" style="background-image: url('https:cdnl.iconscout.com/lottie/premium/thumb/barra-de-carregamento-5652260-4718889.gif');">
+                            <div id="exploration-text" class="text-center p-6 bg-black bg-opacity-70 max-w-md">
+                                <h3 class="text-2xl creepster-font text-red-600 mb-3">BLACKWOOD MANOR</h3>
+                                <p>essa frase a seguir esta sendo escrita 99% sem olhar sim 1 % eu olhei kkkkkkkkkk eu acabei de dar espaço no 1 % de novo eu fiz isso pq</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-black bg-opacity-70 p-4 rounded-lg border border-red-900 shadow-lg">
+                        <h3 class="text-2xl creepster-font text-red-600 mb-3">aaaaaaaaaaaaaaaaaaaaa</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button id="knob" class="interaction-btn bg-gray-800 hover:bg-red-900 text-white py-3 px-4 rounded creepster-font">
+                                Www.com.br
+                            </button>
+                            <button id="whisper" class="interaction-btn bg-gray-800 hover:bg-red-900 text-white py-3 px-4 rounded creepster-font">
+                                nada a ve
+                            </button>
+                            <button id="touch-wall" class="interaction-btn bg-gray-800 hover:bg-red-900 text-white py-3 px-4 rounded creepster-font">
+                                TKatakuri
+                            </button>
+                            <button id="light-candle" class="interaction-btn bg-gray-800 hover:bg-red-900 text-white py-3 px-4 rounded creepster-font">
+                                LDoce
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+        
+                <div class="space-y-6">
+                    <div class="bg-black bg-opacity-70 p-4 rounded-lg border border-red-900 shadow-lg">
+                        <h3 class="text-2xl creepster-font text-red-600 mb-3">nao é o seu jornal é o meu jornal</h3>
+                        <div class="space-y-3">
+                            <div class="journal-entry bg-gray-800 p-3 rounded border border-gray-700">
+                                <p class="text-sm italic">Um texto em italia</p>
+                            </div>
+                            <div id="new-entries"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="book" class="bg-black bg-opacity-70 p-4 rounded-lg border border-red-900 shadow-lg cursor-pointer">
+                        <div class="book-cover bg-red-900 text-center py-12 px-4 rounded page-turn" id="book-cover">
+                            <h3 class="text-2xl creepster-font text-white mb-2">eu nao quero escrever em ingles mas poderia </h3>
+                            <p class="text-white">Abra  sim kkkkkkkkk</p>
+                        </div>
+                        <div id="book-pages" class="hidden bg-amber-50 text-gray-900 p-6 h-64 overflow-y-auto font-serif">
+                            <p class="mb-4"><strong>Page 99.8:</strong></p>
+                            <p class="mb-4">sla oq de ritauoasdaso points eu so cliquei qualquer coisa no rituasjdaisd akosdo de novo isso paaaaraaaaaaaaaaa</p>
+                            <p class="mb-4"><strong>Page 99
+                                :</strong></p>
+                            <p>to em uma esquizofrenia com tdah sinistra nesse site </p>
+                            <p class="text-red-800 mt-4">AAAAAAAAAAAAAAAAAAAAAAAA</p>
+                        </div>
+                    </div>
+                    
+                    <div id="secret-passage" class="bg-black bg-opacity-70 p-4 rounded-lg border border-red-900 shadow-lg hidden">
+                        <h3 class="text-2xl creepster-font text-red-600 mb-3">segreeeeeedo</h3>
+                        <p>loldle</p>
+                        <button id="descend-btn" class="mt-4 bg-red-900 hover:bg-red-800 text-white py-2 px-4 rounded creepster-font">
+                            o segruedo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+  
+        <section id="final-section" class="hidden text-center py-16">
+            <div class="bg-black bg-opacity-90 p-8 rounded-lg border border-red-900 shadow-lg mx-auto max-w-2xl flicker">
+                <h2 class="text-4xl md:text-6xl creepster-font text-red-800 mb-6">here é aqui</h2>
+                <p class="text-xl mb-8">the air é o ar</p>
+                <button id="open-door" class="bg-red-900 hover:bg-red-800 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 creepster-font text-2xl">
+                porta abrida
+                </button>
+            </div>
+        </section>
+    </div>
+    
+ 
+    <div id="ghost" class="fixed w-20 h-20 bg-opacity-20 rounded-full hidden z-50" style="background: radial-gradient(circle, white 0%, transparent 70%);"></div>
+    
+
+    <audio id="door-creak" preload="auto">
+        <source src="https:assets.mixkit.co/sfx/preview/mixkit-creaky-door-2294.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="whisper-sound" preload="auto">
+        <source src="https:assets.mixkit.co/sfx/preview/mixkit-fast-ghost-scream-2581.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="page-turn-sound" preload="auto">
+        <source src="https:assets.mixkit.co/sfx/preview/mixkit-book-page-churn-277.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="suspense-sound" preload="auto">
+        <source src="https:assets.mixkit.co/sfx/preview/mixkit-horror-scream-2839.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script>
+         Typewriter effect for intro
+        const introText = "Este site é o pior e que tem mais terror do mundo, aqui tem as piores imagens, piores ate que a deep web se vc tiver muit coragem irá clicar no botão"
+        const beginBtn = document.getElementById('begin-btn');
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < introText.length) {
+                typewriter.innerHTML += introText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 20);
+            }
+        }
+        
+         Start typewriter effect when page loads
+        window.onload = function() {
+            typeWriter();
+            
+             Create blood dripping animation
+            const bloodDrops = document.querySelectorAll('.blood-drop');
+            bloodDrops.forEach(drop => {
+                const randomSpeed = Math.random() * 5000 + 5000;
+                const randomHeight = Math.random() * 200 + 200;
+                
+                drop.style.animation = `drip ${randomSpeed/1000}s infinite ease-in`;
+                drop.style.height = `${randomHeight}px`;
+                
+                const keyframes = `
+                    @keyframes drip {
+                        0% { transform: translateY(-20px); opacity: 0; }
+                        10% { opacity: 1; }
+                        90% { opacity: 1; }
+                        100% { transform: translateY(${randomHeight + 20}px); opacity: 0; }
+                    }
+                `;
+                
+                const style = document.createElement('style');
+                style.innerHTML = keyframes;
+                document.head.appendChild(style);
+            });
+            
+             Random ghost appearance
+            setInterval(() => {
+                if (Math.random() < 0.05) {
+                    const ghost = document.getElementById('ghost');
+                    ghost.style.left = `${Math.random() * 80 + 10}%`;
+                    ghost.style.top = `${Math.random() * 80 + 10}%`;
+                    ghost.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        ghost.classList.add('hidden');
+                    }, 1500);
+                }
+            }, 10000);
+        };
+        
+         Begin exploration
+        beginBtn.addEventListener('click', function() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('exploration').classList.remove('hidden');
+            
+             Add journal entry
+            addJournalEntry("I've entered Blackwood Manor. The air is thick with... something. Not just dust. It feels like the house is watching me.");
+        });
+        
+         Haunted items interactions
+        const hauntedItems = document.querySelectorAll('.haunted-item');
+        hauntedItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const itemType = this.getAttribute('data-item');
+                const explorationView = document.getElementById('exploration-view');
+                const explorationText = document.getElementById('exploration-text');
+                
+                switch(itemType) {
+                    case 'doll':
+                        document.getElementById('suspense-sound').play();
+                        explorationView.style.backgroundImage = "url('https:tse1.mm.bing.net/th/id/OIP.9aTy96i4190X4jIkXs4Z4wHaJ4?r=0&rs=1&pid=ImgDetMain&o=7&rm=3')";
+                        explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3"> A porta </h3>
+                            <p>Para que todos que duvidaram</p>`;
+                        addJournalEntry("ESSE SITE DA MUITO MEDO!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        break;
+                        
+                    case 'mirror':
+                        document.getElementById('whisper-sound').play();
+                        explorationView.style.backgroundImage = "url('https:preview.redd.it/cc48q73gg2p21.jpg?auto=webp&s=7551acd143e1a2decc8f9aeb814600ca448926bb')";
+                        explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3">THE MIRROR</h3>
+                            <p>apenas o bolsonaro com o peixe... e talvez o lula</p>`;
+                        addJournalEntry("olhe pra tras o bolsonaro com peixe está atras de volta");
+                        break;
+                        
+                    case 'book':
+                        document.getElementById('page-turn-sound').play();
+                        explorationView.style.backgroundImage = "url('https:i.pinimg.com/736x/31/3c/91/313c91ee109e3b3e0cdfb3aa649507f9.jpg')";
+                        explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3">THE ANCIENT TOME</h3>
+                            <p>APENAS O PEIXE COM O BOLSONARO KKKKKKKKKKKKKKKKKKKKKK</p>`;
+                        document.getElementById('mail-container').classList.remove('hidden');
+                        addJournalEntry("Eu nao sei de nada");
+                        break;
+                        
+                    case 'key':
+                        document.getElementById('door-creak').play();
+                        explorationView.style.backgroundImage = "url('https:media.tenor.com/6B2HL5osi7YAAAAM/the-rock-sus-meme-dwayne-johnson.gif')";
+                        explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3">THE MYSTERIOUS KEY</h3>
+                            <p>A chave é o trump dançando.gif  </p>`;
+                        document.getElementById('secret-passage').classList.remove('hidden');
+                        addJournalEntry("Eu sei la é apenas o lula e o bolsonaro ");
+                        break;
+                }
+            });
+        });
+        
+       
+        document.getElementById('fold-letter').addEventListener('click', function() {
+            document.getElementById('mail-container').classList.add('hidden');
+            document.getElementById('hidden-text').classList.remove('invisible');
+        });
+        
+     
+        const interactionBtns = document.querySelectorAll('.interaction-btn');
+        interactionBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.id;
+                const explorationText = document.getElementById('exploration-text');
+                
+                switch(action) {
+                    case 'knob':
+                        document.getElementById('door-creak').play();
+                        explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3">THE DOOR tok toc</h3>
+                            <p>Mentira sai nao o site é daora mim da dinheiro</p>`;
+                        addJournalEntry("Um texto com nada de escrito util ok pode sair ja do site .");
+                        break;
+                        
+                    case 'whisper':
+                        document.getElementById('whisper-sound').play();
+                        explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3">HIHIHIHHIHHAHAHAHAH</h3>
+                            <p>ja nem sei mais oq escrever é muita coisa kosdakodasksadk "RUN corra em portugues 👍."</p>`;
+                        addJournalEntry("I heard voices. eu acho que a traduçao disso daqui é eu ouço vozes ");
+                        break;
+                        
+                    case 'touch-wall':
+                        const explorationView = document.getElementById('exploration-view');
+                        explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3">THE WALL</h3>
+                            <p>The wallpaper is strangely damp and... warm. It pulses slightly beneath your fingers like living flesh.</p>`;
+                        explorationView.style.backgroundImage = "url('https:media1.tenor.com/m/Sin0DOO2uMcAAAAd/trump-trump-dance.gif')";
+                        addJournalEntry("paithon");
+                        break;
+                        
+                    case 'light-candle':
+                        document.getElementById('suspense-sound').play();
+                        explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3">CANDLE LIGHT</h3>
+                            <p>aqui era o fogo queima mais sla oq.</p>`;
+                        addJournalEntry("luz revela sla oq era a traduçao do que tava aqui");
+                        break;
+                }
+            });
+        });
+        
+       
+        document.getElementById('book-cover').addEventListener('click', function() {
+            this.classList.add('hidden');
+            document.getElementById('book-pages').classList.remove('hidden');
+            document.getElementById('page-turn-sound').play();
+            addJournalEntry("ah mano que preguiça de escrever mais coisa nao tenho tanta criatividade agora assim nao slkkkkkkkkkkkkkkkkkkk");
+        });
+        
+        
+        document.getElementById('descend-btn').addEventListener('click', function() {
+            document.getElementById('exploration').classList.add('hidden');
+            document.getElementById('final-section').classList.remove('hidden');
+            document.getElementById('suspense-sound').play();
+            addJournalEntry(" Ja dizia o bolsonaro, Eu sou angolano ");
+        });
+        
+       
+        document.getElementById('open-door').addEventListener('click', function() {
+            const explorationText = document.getElementById('exploration-text');
+            explorationText.innerHTML = `<h3 class="text-2xl creepster-font text-red-600 mb-3">BEHIND é atras das portas eu tirei oq tava escrito door KKKKKKK</h3>
+                <p>The door ta ai o door porta que eu tinha tirado na linha de cima</p>
+                <p>The last nao é o of us so pra avisar</p>`;
+            document.getElementById('whisper-sound').play();
+            
+            
+            setTimeout(() => {
+                document.documentElement.style.filter = "brightness(0)";
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+            }, 3000);
+            
+            addJournalEntry("porta abrida de sla oq");
+        });
+        
+         Helper function to add journal entries
+        function addJournalEntry(text) {
+            const newEntry = document.createElement('div');
+            newEntry.className = 'journal-entry bg-gray-800 p-3 rounded border border-gray-700';
+            newEntry.innerHTML = `<p class="text-sm italic">${text}</p>`;
+            document.getElementById('new-entries').appendChild(newEntry);
+        }
+    </script>
+</body>
+</html>
+
