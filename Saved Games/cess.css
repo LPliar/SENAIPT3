@@ -1,0 +1,44 @@
+#divFundo{
+    
+    height: 300px;
+    width: 700px;
+    padding-left: 800px;
+    padding-top: 300px;
+
+}
+#starter{
+    background-color: red;
+    border-radius: 7px;
+    height: 100px;
+    width: 300px;
+    border: 0px;
+    box-shadow: -6px 7px ;
+    font-size: 50px;
+    
+}
+.GRAY{
+    margin-top: 100px;
+    margin-left: 200px;
+    
+}   
+.START{
+    margin-top: 5%;
+    margin-left: -200px;
+
+}
+
+
+
+ 
+body{
+    background-color: black;
+}
+
+.fundo{
+    background-color: white;
+    width: 700px;
+    height: 150px;
+    margin-left: -400px;
+    margin-top: -120px;
+    border-radius: 5px;
+}
